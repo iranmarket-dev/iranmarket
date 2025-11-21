@@ -1,14 +1,15 @@
-#iranmarket/settings_base.py
+# iranmarket/settings_base.py
 from pathlib import Path
 import os
 
 from dotenv import load_dotenv
+import dj_database_url  # برای پارس کردن DATABASE_URL (Render / Postgres)
 
 # ---------- BASE DIR & ENV ----------
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# خواندن متغیرها از فایل .env کنار manage.py
+# خواندن متغیرها از فایل .env کنار manage.py (برای توسعه روی سیستم خودت)
 load_dotenv(BASE_DIR / ".env")
 
 
@@ -39,13 +40,23 @@ if not DEBUG and SECRET_KEY == "dev-secret-key-unsafe":
     )
 
 # ALLOWED_HOSTS
-# برای توسعه خالی می‌ماند؛ برای سرور می‌توانی از ENV بخوانی:
-# DJANGO_ALLOWED_HOSTS=example.com,api.example.com
+# مثال در Render:
+# DJANGO_ALLOWED_HOSTS=iranmarket.onrender.com
 if DEBUG:
     ALLOWED_HOSTS: list[str] = []
 else:
     hosts = os.getenv("DJANGO_ALLOWED_HOSTS", "")
     ALLOWED_HOSTS = [h.strip() for h in hosts.split(",") if h.strip()]
+
+# برای CSRF در پروداکشن (آدرس کامل با https)
+# مثال:
+# DJANGO_CSRF_TRUSTED_ORIGINS=https://iranmarket.onrender.com
+csrf_env = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "")
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in csrf_env.split(",")
+    if origin.strip()
+]
 
 
 # ---------- APPS ----------
@@ -67,6 +78,10 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+
+    # برای سرو استاتیک‌ها در Render / پروداکشن
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -111,30 +126,43 @@ WSGI_APPLICATION = "iranmarket.wsgi.application"
 
 # ---------- DATABASES ----------
 
-# الان می‌خوای sqlite باشد؛
-# اگر بعداً خواستی بری روی Postgres، فقط ENV را عوض می‌کنی.
-DB_ENGINE = os.getenv("DJANGO_DB_ENGINE", "sqlite").lower()
+# ۱) اگر DATABASE_URL در ENV باشد (Render / Postgres)، همان استفاده می‌شود.
+# ۲) اگر نه، از سیستم قبلی‌ات (DJANGO_DB_ENGINE=sqlite/postgres) استفاده می‌شود.
 
-if DB_ENGINE == "postgres":
+database_url = os.getenv("DATABASE_URL")
+
+if database_url:
+    # حالت Render / هر جایی که DATABASE_URL داری
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DJANGO_DB_NAME", "iranmarket"),
-            "USER": os.getenv("DJANGO_DB_USER", ""),
-            "PASSWORD": os.getenv("DJANGO_DB_PASSWORD", ""),
-            "HOST": os.getenv("DJANGO_DB_HOST", "localhost"),
-            "PORT": os.getenv("DJANGO_DB_PORT", "5432"),
-            "CONN_MAX_AGE": 60,  # اتصال‌های پایدارتر
-        }
+        "default": dj_database_url.config(
+            default=database_url,
+            conn_max_age=60,
+        )
     }
 else:
-    # حالت پیش‌فرض: sqlite (همینی که فعلاً می‌خوای)
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / os.getenv("DJANGO_DB_NAME", "db.sqlite3"),
+    # سیستم قبلی‌ات (برای توسعه روی لوکال)
+    DB_ENGINE = os.getenv("DJANGO_DB_ENGINE", "sqlite").lower()
+
+    if DB_ENGINE == "postgres":
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql",
+                "NAME": os.getenv("DJANGO_DB_NAME", "iranmarket"),
+                "USER": os.getenv("DJANGO_DB_USER", ""),
+                "PASSWORD": os.getenv("DJANGO_DB_PASSWORD", ""),
+                "HOST": os.getenv("DJANGO_DB_HOST", "localhost"),
+                "PORT": os.getenv("DJANGO_DB_PORT", "5432"),
+                "CONN_MAX_AGE": 60,  # اتصال‌های پایدارتر
+            }
         }
-    }
+    else:
+        # حالت پیش‌فرض: sqlite (همینی که فعلاً می‌خوای)
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": BASE_DIR / os.getenv("DJANGO_DB_NAME", "db.sqlite3"),
+            }
+        }
 
 
 # ---------- PASSWORD VALIDATORS ----------
@@ -174,13 +202,17 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+# برای WhiteNoise در پروداکشن
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 CART_SESSION_ID = "cart"
+
 # ---------- DEFAULT PRIMARY KEY ----------
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "IranMarket <no-reply@iranmarket.local>"
-
