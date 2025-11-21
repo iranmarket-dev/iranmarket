@@ -1,0 +1,44 @@
+[
+  {
+    "name": "آذربایجان غربی",
+    "slug": "azarbaijan-gharbi",
+    "order": 1,
+    "cities": [
+      {
+        "name": "ارومیه",
+        "slug": "urmia",
+        "order": 1,
+        "is_popular": true,
+        "delivery_available": true
+      },
+      {
+        "name": "خوی",
+        "slug": "khoy",
+        "order": 2,
+        "is_popular": false,
+        "delivery_available": true
+      }
+    ]
+  },
+  {
+    "name": "تهران",
+    "slug": "tehran",
+    "order": 2,
+    "cities": [
+      {
+        "name": "تهران",
+        "slug": "tehran-city",
+        "order": 1,
+        "is_popular": true,
+        "delivery_available": true
+      },
+      {
+        "name": "ری",
+        "slug": "rey",
+        "order": 2,
+        "is_popular": false,
+        "delivery_available": true
+      }
+    ]
+  }
+]

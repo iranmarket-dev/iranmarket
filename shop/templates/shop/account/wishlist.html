@@ -1,0 +1,29 @@
+{% extends "shop/account/base_account.html" %}
+
+{% block account_content %}
+<div class="card">
+    <div class="card-body">
+        <h2 class="h6 mb-3">لیست علاقه‌مندی‌ها</h2>
+
+        {% if items %}
+            <div class="row row-cols-2 row-cols-md-3 g-3">
+                {% for item in items %}
+                    <div class="col">
+                        {% include "shop/partials/product_card.html" with p=item.product %}
+                        <form method="post"
+                              action="{% url 'shop:wishlist_remove' item.product.id %}"
+                              class="mt-1">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-outline-danger w-100">
+                                حذف از علاقه‌مندی‌ها
+                            </button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="small text-muted mb-0">هنوز محصولی به علاقه‌مندی‌ها اضافه نکرده‌اید.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

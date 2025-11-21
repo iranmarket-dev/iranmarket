@@ -1,0 +1,65 @@
+{% extends "shop/account/base_account.html" %}
+
+{% block account_content %}
+<div class="card mb-3">
+    <div class="card-body">
+        <p class="mb-2">
+            سلام،
+            <strong>{{ profile.full_name|default:request.user.username }}</strong>
+        </p>
+
+        {% if active_order %}
+            <div class="alert alert-info small mb-0">
+                سفارش در حال پردازش:
+                <strong>#{{ active_order.id }}</strong>
+                – وضعیت:
+                {{ active_order.get_status_display }}
+            </div>
+        {% else %}
+            <p class="small text-muted mb-0">
+                در حال حاضر سفارشی در حال ارسال ندارید.
+            </p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-sm-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="small text-muted mb-1">تعداد سفارش‌ها</div>
+                <div class="h4 mb-0">{{ total_orders }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="small text-muted mb-1">مجموع خرید ۳۰ روز اخیر</div>
+                <div class="h5 mb-0">{{ total_spent_last_month|floatformat:0 }} تومان</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="small text-muted mb-1">آخرین سفارش</div>
+                {% if last_order %}
+                    <div class="small mb-1">
+                        شماره:
+                        <strong>#{{ last_order.id }}</strong>
+                    </div>
+                    <div class="small mb-1">
+                        وضعیت: {{ last_order.get_status_display }}
+                    </div>
+                    <a href="{% url 'shop:account_orders' %}" class="btn btn-sm btn-outline-primary">
+                        مشاهده سفارش‌ها
+                    </a>
+                {% else %}
+                    <div class="small text-muted">هنوز سفارشی ثبت نکرده‌اید.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

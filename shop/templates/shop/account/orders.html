@@ -1,0 +1,68 @@
+{# shop/templates/shop/account/orders.html #}
+{% extends "base.html" %}
+
+{% block title %}سفارش‌های من | ایران مارکت{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="h4 mb-3">سفارش‌های من</h1>
+
+    {% if orders %}
+        <div class="table-responsive">
+            <table class="table table-sm align-middle">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>تاریخ</th>
+                        <th>مبلغ نهایی</th>
+                        <th>وضعیت</th>
+                        <th>پرداخت</th>
+                        <th>شهر</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td class="small">
+                                {{ order.created_at|date:"Y/m/d H:i" }}
+                            </td>
+                            <td class="small">
+                                {{ order.total_price|floatformat:0 }} تومان
+                            </td>
+                            <td class="small">
+                                {{ order.get_status_display }}
+                            </td>
+                            <td class="small">
+                                {% if order.paid %}
+                                    <span class="badge text-bg-success">پرداخت‌شده</span>
+                                {% else %}
+                                    <span class="badge text-bg-warning">در انتظار پرداخت</span>
+                                {% endif %}
+                            </td>
+                            <td class="small">
+                                {% if order.city %}
+                                    {{ order.city.name }}
+                                {% elif order.user.profile.current_city %}
+                                    {{ order.user.profile.current_city.name }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td class="text-end">
+                                <a href="{% url 'shop:order_detail' order.id %}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    جزئیات
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>هنوز سفارشی ثبت نکرده‌اید.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,371 @@
+{# shop/templates/shop/product_detail.html #}
+{% extends "base.html" %}
+
+{% block title %}{{ seo_title }}{% endblock %}
+{% block meta_description %}{{ seo_description }}{% endblock %}
+
+{% block extra_head %}
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {# Open Graph برای سوشال #}
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="{{ seo_title }}">
+    <meta property="og:description" content="{{ seo_description }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    {% if og_image_url %}
+        <meta property="og:image" content="{{ og_image_url }}">
+    {% endif %}
+
+    {# اسکیما Product + Offer + (اختیاری) AggregateRating #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "{{ product.name|escapejs }}",
+      "description": "{{ seo_description|escapejs }}",
+      "sku": "{{ product.id }}",
+      "brand": {
+        "@type": "Brand",
+        "name": "{{ product.brand.name|default_if_none:""|escapejs }}"
+      },
+      "category": "{{ product.category.name|escapejs }}",
+      {% if og_image_url %}
+      "image": "{{ og_image_url }}",
+      {% else %}
+      "image": "",
+      {% endif %}
+      {% if rating_count and rating_average %}
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ rating_average }}",
+        "reviewCount": "{{ rating_count }}"
+      },
+      {% endif %}
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "IRR",
+        "price": "{{ final_price }}",
+        "availability": "{% if in_stock %}http://schema.org/InStock{% else %}http://schema.org/OutOfStock{% endif %}",
+        "url": "{{ canonical_url }}",
+        "itemCondition": "http://schema.org/NewCondition"
+      }
+    }
+    </script>
+
+    {# اسکیما BreadcrumbList برای صفحه محصول #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "خانه",
+          "item": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "{{ product.category.name|escapejs }}",
+          "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'shop:category_detail' product.category.slug %}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "{{ product.name|escapejs }}",
+          "item": "{{ canonical_url }}"
+        }
+      ]
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    {# breadcrumb #}
+    <nav aria-label="breadcrumb" class="mt-2 mb-3">
+        <ol class="breadcrumb breadcrumb-sm">
+            <li class="breadcrumb-item">
+                <a href="{% url 'shop:home' %}">خانه</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'shop:category_detail' product.category.slug %}">
+                    {{ product.category.name }}
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                {{ product.name }}
+            </li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+
+        {# تصویر محصول #}
+        <div class="col-md-4">
+            {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     class="img-fluid rounded-4 border"
+                     alt="{{ product.name }}">
+            {% else %}
+                <div class="border rounded-4 p-5 text-center text-muted small">
+                    تصویر برای این محصول ثبت نشده است.
+                </div>
+            {% endif %}
+        </div>
+
+        {# اطلاعات اصلی محصول #}
+        <div class="col-md-5">
+
+            <h1 class="h4 mb-2">{{ product.name }}</h1>
+
+            {% if product.brand %}
+                <div class="mb-2 text-muted small">
+                    برند:
+                    <span class="fw-semibold">{{ product.brand.name }}</span>
+                </div>
+            {% endif %}
+
+            <div class="mb-2 small text-muted">
+                دسته:
+                <a href="{% url 'shop:category_detail' product.category.slug %}">
+                    {{ product.category.name }}
+                </a>
+            </div>
+
+            {# خلاصه امتیاز #}
+            <div class="mb-3">
+                {% if rating_average %}
+                    <div class="d-flex align-items-center">
+                        <div class="me-2">
+                            {% with avg=rating_average|floatformat:0 %}
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= avg %}
+                                        <span class="text-warning">★</span>
+                                    {% else %}
+                                        <span class="text-muted">☆</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}
+                        </div>
+                        <div class="small text-muted">
+                            {{ rating_average|floatformat:1 }} از ۵
+                            بر اساس {{ rating_count }} رای
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="small text-muted">
+                        هنوز امتیازی برای این محصول ثبت نشده است.
+                    </div>
+                {% endif %}
+            </div>
+
+            {# قیمت و تخفیف #}
+            <div class="my-3">
+                {% if product.has_discount %}
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="fs-4 fw-bold">
+                            {{ product.final_price|floatformat:0 }} تومان
+                        </span>
+                        <span class="badge bg-danger">
+                            {{ product.discount_percent }}٪ تخفیف
+                        </span>
+                    </div>
+                    <div class="text-muted text-decoration-line-through">
+                        {{ product.price|floatformat:0 }} تومان
+                    </div>
+                {% else %}
+                    <span class="fs-4 fw-bold">
+                        {{ product.price|floatformat:0 }} تومان
+                    </span>
+                {% endif %}
+            </div>
+
+            {# موجودی و دکمه افزودن به سبد #}
+            {% if product.stock == 0 or not in_stock %}
+                <div class="mt-3">
+                    <button class="btn btn-secondary" disabled>اتمام موجودی</button>
+                </div>
+            {% else %}
+                <form action="{% url 'shop:cart_add' product.id %}"
+                    method="post"
+                    class="mt-3 js-add-to-cart-form">
+                    {% csrf_token %}
+                    <div class="input-group" style="max-width:260px;">
+                        <span class="input-group-text small">تعداد</span>
+                        <input type="number"
+                            min="1"
+                            name="quantity"
+                            value="1"
+                            class="form-control form-control-sm">
+                        <button class="btn btn-success btn-sm">
+                            افزودن به سبد خرید
+                        </button>
+                    </div>
+                </form>
+
+            {% endif %}
+
+            <div class="mt-3 small text-muted">
+                {% if product.stock == 0 or not in_stock %}
+                    موجودی: <span class="text-danger">اتمام موجودی</span>
+                {% else %}
+                    موجودی: {{ product.stock }} {{ product.get_unit_display }}
+                {% endif %}
+            </div>
+
+        </div>
+
+        {# باکس ارسال / تحویل #}
+        <div class="col-md-3">
+            <div class="border rounded-3 p-3 small bg-light">
+                <h2 class="h6 mb-2">ارسال و تحویل</h2>
+                {% if site_setting and site_setting.delivery_description %}
+                    <p class="mb-1 small">
+                        {{ site_setting.delivery_description }}
+                    </p>
+                {% else %}
+                    <p class="mb-1 small text-muted">
+                        توضیحات ارسال هنوز تنظیم نشده است.
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    {# توضیحات محصول #}
+    {% if product.description %}
+        <section class="mt-4">
+            <h2 class="h6 mb-2">توضیحات محصول</h2>
+            <div class="small">
+                {{ product.description|linebreaks }}
+            </div>
+        </section>
+    {% endif %}
+
+    {# نظرات کاربران #}
+    <section class="mt-4">
+        <h2 class="h6 mb-3">نظرات کاربران</h2>
+
+        {% if reviews %}
+            <ul class="list-group mb-3">
+                {% for r in reviews %}
+                    <li class="list-group-item small">
+                        <div class="d-flex justify-content-between">
+                            <strong>
+                                {{ r.user.get_full_name|default:r.user.username }}
+                            </strong>
+                            <span>
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= r.rating %}
+                                        <span class="text-warning">★</span>
+                                    {% else %}
+                                        <span class="text-muted">☆</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
+                        </div>
+
+                        {% if r.title %}
+                            <div class="fw-bold mt-1">{{ r.title }}</div>
+                        {% endif %}
+
+                        {% if r.comment %}
+                            <div class="mt-1">{{ r.comment|linebreaksbr }}</div>
+                        {% endif %}
+
+                        <div class="text-muted mt-1">
+                            {{ r.created_at|date:"Y/m/d H:i" }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="small text-muted mb-3">
+                هنوز نظری برای این محصول ثبت نشده است.
+            </p>
+        {% endif %}
+
+        {# فرم ثبت / ویرایش نظر #}
+        <h3 class="h6 mb-3">ثبت نظر شما</h3>
+
+        {% if user.is_authenticated %}
+            <form method="post"
+                  action="{% url 'shop:add_review' product.id %}"
+                  class="mb-4">
+                {% csrf_token %}
+
+                {% if user_review %}
+                    <p class="small text-muted">
+                        شما قبلاً برای این محصول نظر ثبت کرده‌اید؛
+                        با این فرم می‌توانید آن را ویرایش کنید.
+                    </p>
+                {% endif %}
+
+                <div class="mb-2">
+                    <label class="form-label small">امتیاز:</label>
+                    <div>
+                        {{ review_form.rating }}
+                    </div>
+                    <div class="text-danger small">
+                        {{ review_form.rating.errors }}
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label small">
+                        {{ review_form.title.label }}
+                    </label>
+                    {{ review_form.title }}
+                    <div class="text-danger small">
+                        {{ review_form.title.errors }}
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label small">
+                        {{ review_form.comment.label }}
+                    </label>
+                    {{ review_form.comment }}
+                    <div class="text-danger small">
+                        {{ review_form.comment.errors }}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-sm btn-primary">
+                    ثبت نظر
+                </button>
+            </form>
+        {% else %}
+            <p class="small">
+                برای ثبت نظر، لطفاً
+                <a href="{% url 'shop:login' %}?next={{ request.path }}">
+                    وارد حساب کاربری شوید
+                </a>.
+            </p>
+        {% endif %}
+    </section>
+
+    {# محصولات مرتبط #}
+    {% if related_products %}
+        <section class="mt-4 mb-4">
+            <h2 class="h6 mb-3">محصولات مرتبط</h2>
+            <div class="row row-cols-2 row-cols-md-4 g-3">
+                {% for p in related_products %}
+                    <div class="col">
+                        {% include "shop/partials/product_card.html" with p=p %}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+</div>
+
+{% block extra_js %}{% endblock %}
+
+
+{% endblock %}

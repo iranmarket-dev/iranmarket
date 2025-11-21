@@ -1,0 +1,148 @@
+{# shop/templates/shop/checkout.html #}
+{% extends 'base.html' %}
+
+{% block title %}ثبت سفارش | ایران مارکت{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="h4 mb-3">ثبت سفارش</h1>
+
+    <div class="row g-4">
+        {# ستون چپ: فرم اطلاعات ارسال + کد تخفیف #}
+        <div class="col-md-6">
+            <h2 class="h6 mb-3">اطلاعات ارسال</h2>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+
+                <div class="mb-3">
+                    <label class="form-label">{{ form.first_name.label }}</label>
+                    {{ form.first_name }}
+                    <div class="text-danger small">{{ form.first_name.errors }}</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">{{ form.last_name.label }}</label>
+                    {{ form.last_name }}
+                    <div class="text-danger small">{{ form.last_name.errors }}</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">{{ form.phone.label }}</label>
+                    {{ form.phone }}
+                    <div class="text-danger small">{{ form.phone.errors }}</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">{{ form.address.label }}</label>
+                    {{ form.address }}
+                    <div class="text-danger small">{{ form.address.errors }}</div>
+                </div>
+
+                {# فیلد کد تخفیف (در صورت تعریف در فرم) #}
+                {% if form.coupon_code %}
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.coupon_code.label }}</label>
+                        {{ form.coupon_code }}
+                        {% if form.coupon_code.help_text %}
+                            <div class="form-text">{{ form.coupon_code.help_text }}</div>
+                        {% endif %}
+                        <div class="text-danger small">{{ form.coupon_code.errors }}</div>
+                    </div>
+                {% endif %}
+
+                <button class="btn btn-success">ثبت سفارش</button>
+            </form>
+        </div>
+
+        {# ستون راست: سبد خرید و خلاصه پرداخت #}
+        <div class="col-md-6">
+            <h2 class="h6 mb-3">خلاصه سبد خرید</h2>
+
+            <ul class="list-group mb-3">
+                {% for item in cart %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center small">
+                        <div>
+                            {{ item.product.name }}
+                            <span class="text-muted">× {{ item.quantity }}</span>
+                        </div>
+                        <div>{{ item.total_price|floatformat:0 }} تومان</div>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item small">
+                        سبد خرید شما خالی است.
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="h6 mb-3">خلاصه پرداخت</h3>
+                    <table class="table table-sm mb-0">
+                        <tbody>
+                        <tr>
+                            <th class="small">جمع سبد خرید</th>
+                            <td class="text-end small">
+                                {% if items_total %}
+                                    {{ items_total|floatformat:0 }} تومان
+                                {% else %}
+                                    {{ cart.get_total_price|floatformat:0 }} تومان
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        {# ردیف تخفیف فقط اگر مقدار > ۰ باشد #}
+                        {% if discount_amount and discount_amount|floatformat:0 != '0' %}
+                            <tr>
+                                <th class="small">تخفیف</th>
+                                <td class="text-end small text-success">
+                                    − {{ discount_amount|floatformat:0 }} تومان
+                                </td>
+                            </tr>
+                        {% endif %}
+
+                        <tr>
+                            <th class="small">
+                                هزینه ارسال
+                                {% if current_city %}
+                                    ({{ current_city.name }})
+                                {% endif %}
+                            </th>
+                            <td class="text-end small">
+                                {% if shipping_cost %}
+                                    {{ shipping_cost|floatformat:0 }} تومان
+                                {% else %}
+                                    {% if current_city %}
+                                        رایگان
+                                    {% else %}
+                                        بعد از انتخاب شهر محاسبه می‌شود
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="small">مبلغ نهایی قابل پرداخت</th>
+                            <td class="text-end small fw-bold">
+                                {% if payable_total %}
+                                    {{ payable_total|floatformat:0 }} تومان
+                                {% else %}
+                                    {% comment %}fallback در صورت نبود کانتکست{% endcomment %}
+                                    {{ cart.get_total_price|floatformat:0 }} تومان
+                                {% endif %}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    {% if applied_coupon %}
+                        <p class="mt-2 mb-0 small text-success">
+                            کد تخفیف اعمال شده: <strong>{{ applied_coupon.code }}</strong>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

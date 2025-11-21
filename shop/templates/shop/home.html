@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ایران مارکت | سوپرمارکت آنلاین{% endblock %}
+
+{% block content %}
+<div class="container">
+    {# ۱. اسلایدر دسته‌بندی‌ها - دقیقا زیر هدر/بنر اصلی #}
+    {% include "shop/partials/category_slider.html" with categories=categories %}
+
+    {# --- Hero Slider (بنر اصلی بالا) --- #}
+    {% if hero_banners %}
+        <div id="heroSlider" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-4 overflow-hidden shadow-sm">
+                {% for banner in hero_banners %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        {% if banner.link_url %}
+                            <a href="{{ banner.link_url }}">
+                                <img src="{{ banner.image.url }}" class="d-block w-100" alt="{{ banner.title }}">
+                            </a>
+                        {% else %}
+                            <img src="{{ banner.image.url }}" class="d-block w-100" alt="{{ banner.title }}">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroSlider" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroSlider" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    {% endif %}
+
+   
+
+    {# ۲. پیشنهادهای ویژه (special_products) #}
+    {% include "shop/partials/product_slider.html" with title="پیشنهاد ویژه" products=special_products %}
+
+    {# بنرهای وسط صفحه (اگر تعریف کرده‌ای) #}
+    {% for banner in middle_banners %}
+        <section class="mb-4">
+            {% if banner.link_url %}
+                <a href="{{ banner.link_url }}">
+                    <img src="{{ banner.image.url }}" class="img-fluid rounded-4 w-100" alt="{{ banner.title }}">
+                </a>
+            {% else %}
+                <img src="{{ banner.image.url }}" class="img-fluid rounded-4 w-100" alt="{{ banner.title }}">
+            {% endif %}
+        </section>
+    {% endfor %}
+
+    {# ۳. جدیدترین‌ها #}
+    {% include "shop/partials/product_slider.html" with title="جدیدترین محصولات" products=new_products %}
+
+    {# ۴. پرفروش‌ترین‌ها #}
+    {% include "shop/partials/product_slider.html" with title="پرفروش‌ترین‌ها" products=best_sellers %}
+
+</div>
+{% endblock %}

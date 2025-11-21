@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}محصولات تخفیف‌دار | ایران مارکت{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="h4 mb-3">محصولات تخفیف‌دار</h1>
+
+    {% if products %}
+        <div class="row row-cols-2 row-cols-md-4 g-3">
+            {% for p in products %}
+            <div class="col">
+                {% include 'shop/partials/product_card.html' with p=p %}
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>در حال حاضر محصول تخفیف‌دار ثبت نشده است.</p>
+    {% endif %}
+</div>
+{% endblock %}

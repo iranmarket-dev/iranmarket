@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}درباره ما | ایران مارکت{% endblock %}
+
+{% block meta_description %}
+ایران مارکت یک سوپرمارکت آنلاین برای خرید اینترنتی مواد غذایی و کالاهای سوپرمارکتی است؛
+با ارسال سریع، پشتیبانی واقعی و تمرکز بر تازگی و اصالت کالا.
+{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "خانه",
+      "item": "{{ request.build_absolute_uri|slice:':-request.path|length' }}/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "درباره ما",
+      "item": "{{ request.build_absolute_uri }}"
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    {# Breadcrumb UI #}
+    <nav aria-label="breadcrumb" class="small mb-3">
+      <ol class="breadcrumb mb-1">
+        <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">خانه</a></li>
+        <li class="breadcrumb-item active" aria-current="page">درباره ما</li>
+      </ol>
+    </nav>
+
+    <h1 class="h4 mb-3">درباره ایران مارکت</h1>
+
+    <p class="small text-muted mb-3">
+        ایران مارکت یک <strong>سوپرمارکت آنلاین</strong> است که تلاش می‌کند تجربه خرید روزانه شما
+        را ساده‌تر، سریع‌تر و قابل‌اعتمادتر کند. از مواد غذایی تازه گرفته تا محصولات سوپرمارکتی،
+        همه‌چیز را می‌توانید به صورت آنلاین سفارش دهید و در زمان دلخواه درب منزل تحویل بگیرید.
+    </p>
+
+    <p class="small mb-4">
+        تمرکز ما روی سه چیز است:
+        <strong>تازگی کالا</strong>، <strong>قیمت منصفانه</strong> و
+        <strong>تجربه خرید راحت و بدون دردسر</strong>.
+    </p>
+
+    <div class="accordion small" id="aboutAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="aboutMissionHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#aboutMission" aria-expanded="false" aria-controls="aboutMission">
+                    ماموریت ایران مارکت
+                </button>
+            </h2>
+            <div id="aboutMission" class="accordion-collapse collapse" aria-labelledby="aboutMissionHeading"
+                 data-bs-parent="#aboutAccordion">
+                <div class="accordion-body">
+                    ماموریت ما این است که دسترسی به <strong>مواد غذایی تازه و باکیفیت</strong> را
+                    برای همه‌ افراد آسان کنیم؛ بدون نیاز به تحمل ترافیک، شلوغی فروشگاه‌ها و محدودیت زمانی.
+                    ایران مارکت به شما کمک می‌کند خرید هفتگی و روزانه خود را تنها با چند کلیک انجام دهید.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="aboutWhyHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#aboutWhy" aria-expanded="false" aria-controls="aboutWhy">
+                    چرا خرید از ایران مارکت؟
+                </button>
+            </h2>
+            <div id="aboutWhy" class="accordion-collapse collapse" aria-labelledby="aboutWhyHeading"
+                 data-bs-parent="#aboutAccordion">
+                <div class="accordion-body">
+                    <ul class="mb-0">
+                        <li>دسترسی به <strong>برندهای معتبر</strong> و کالاهای اصیل.</li>
+                        <li><strong>ارسال سریع</strong> در شهرهای تحت پوشش.</li>
+                        <li>نمایش <strong>موجودی و قیمت به‌روز</strong> در سایت.</li>
+                        <li>پشتیبانی پاسخ‌گو برای حل سریع مسائل و سوال‌ها.</li>
+                        <li>امکان مشاهده تخفیف‌ها و پیشنهادهای ویژه در هر لحظه.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="aboutValuesHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#aboutValues" aria-expanded="false" aria-controls="aboutValues">
+                    ارزش‌ها و اصول کاری ما
+                </button>
+            </h2>
+            <div id="aboutValues" class="accordion-collapse collapse" aria-labelledby="aboutValuesHeading"
+                 data-bs-parent="#aboutAccordion">
+                <div class="accordion-body">
+                    <ul class="mb-0">
+                        <li><strong>صداقت در قیمت و اطلاعات محصول</strong>؛ آنچه می‌بینید همان چیزی است که دریافت می‌کنید.</li>
+                        <li><strong>احترام به وقت مشتری</strong> از طریق ارسال به‌موقع و اطلاع‌رسانی شفاف.</li>
+                        <li><strong>حفظ کیفیت</strong> در زنجیره تأمین، بسته‌بندی و ارسال.</li>
+                        <li><strong>بهبود مستمر</strong> بر اساس بازخورد شما و تحلیل رفتار خرید.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="aboutHowToStartHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#aboutHowToStart" aria-expanded="false" aria-controls="aboutHowToStart">
+                    چطور خرید از ایران مارکت را شروع کنم؟
+                </button>
+            </h2>
+            <div id="aboutHowToStart" class="accordion-collapse collapse" aria-labelledby="aboutHowToStartHeading"
+                 data-bs-parent="#aboutAccordion">
+                <div class="accordion-body">
+                    کافی است از طریق منوی بالا وارد بخش
+                    <a href="{% url 'shop:buying_guide' %}">راهنمای خرید</a>
+                    شوید و مراحل ساده ثبت سفارش را قدم به قدم ببینید؛
+                    یا مستقیماً محصولات را جستجو کرده و به سبد خرید خود اضافه کنید.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "shop/account/base_account.html" %}
+
+{% block account_content %}
+<div class="card">
+    <div class="card-body">
+        <h2 class="h6 mb-3">تنظیمات اطلاع‌رسانی</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="notify_order_sms"
+                       id="notify_order_sms" {% if profile.notify_order_sms %}checked{% endif %}>
+                <label class="form-check-label" for="notify_order_sms">
+                    دریافت پیامک وضعیت سفارش‌ها
+                </label>
+            </div>
+
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="notify_promotions"
+                       id="notify_promotions" {% if profile.notify_promotions %}checked{% endif %}>
+                <label class="form-check-label" for="notify_promotions">
+                    اطلاع‌رسانی تخفیف‌های ایران مارکت
+                </label>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" name="notify_site_notifications"
+                       id="notify_site_notifications" {% if profile.notify_site_notifications %}checked{% endif %}>
+                <label class="form-check-label" for="notify_site_notifications">
+                    نمایش اعلان‌های داخل سایت
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-success">ذخیره تنظیمات</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

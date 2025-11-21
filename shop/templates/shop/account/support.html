@@ -1,0 +1,55 @@
+{% extends "shop/account/base_account.html" %}
+
+{% block account_content %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h2 class="h6 mb-3">ارسال پیام به پشتیبانی</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-2">
+                <label class="form-label small">موضوع</label>
+                <input type="text" name="subject" class="form-control" required>
+            </div>
+            <div class="mb-2">
+                <label class="form-label small">متن پیام</label>
+                <textarea name="message" rows="4" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">ثبت تیکت</button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h2 class="h6 mb-3">تیکت‌های قبلی</h2>
+
+        {% if tickets %}
+            <div class="list-group small">
+                {% for t in tickets %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong>{{ t.subject }}</strong>
+                                <div class="text-muted mt-1">{{ t.message|linebreaksbr }}</div>
+                                {% if t.admin_reply %}
+                                    <div class="mt-2">
+                                        <span class="badge bg-secondary">پاسخ پشتیبانی</span>
+                                        <div class="mt-1">{{ t.admin_reply|linebreaksbr }}</div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="text-end">
+                                <div class="mb-1 small">{{ t.created_at|date:"Y/m/d H:i" }}</div>
+                                <span class="badge bg-light text-dark">{{ t.get_status_display }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="small text-muted mb-0">تاکنون تیکتی ثبت نکرده‌اید.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

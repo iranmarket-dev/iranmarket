@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}سوالات متداول | ایران مارکت{% endblock %}
+
+{% block meta_description %}
+پاسخ به سوالات متداول درباره ثبت سفارش، ارسال، پرداخت، پیگیری خرید و مرجوعی کالا در سوپرمارکت آنلاین ایران مارکت.
+{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "name": "سوالات متداول ایران مارکت",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "خانه",
+        "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'shop:home' %}"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "سوالات متداول",
+        "item": "{{ request.build_absolute_uri }}"
+      }
+    ]
+  },
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "چطور می‌توانم از ایران مارکت سفارش ثبت کنم؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "محصولات مورد نظر خود را از طریق جستجو یا دسته‌بندی‌ها انتخاب کنید، آن‌ها را به سبد خرید اضافه کنید، سپس پس از ورود یا ثبت‌نام، آدرس، روش ارسال و پرداخت را انتخاب کرده و سفارش را نهایی کنید."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "هزینه ارسال سفارش چطور محاسبه می‌شود؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "هزینه ارسال بر اساس شهر، منطقه، روش ارسال و مبلغ نهایی سبد خرید به صورت خودکار محاسبه شده و قبل از پرداخت در صفحه سبد خرید و تایید سفارش نمایش داده می‌شود."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "چطور می‌توانم وضعیت سفارش خود را پیگیری کنم؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "پس از ورود به حساب کاربری، از بخش سفارش‌های من می‌توانید وضعیت آخرین سفارش‌ها، جزئیات هر سفارش و مراحل آماده‌سازی یا ارسال را مشاهده کنید."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "اگر محصول خراب یا اشتباه به دستم رسید چه کار کنم؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "از طریق بخش پشتیبانی یا ثبت تیکت برای همان سفارش، مشکل را توضیح دهید و در صورت امکان عکس محصول را ارسال کنید. تیم پشتیبانی پس از بررسی، برای تعویض کالا یا بازگشت وجه با شما هماهنگ می‌کند."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "آیا امکان لغو یا تغییر سفارش وجود دارد؟",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "تا زمانی که سفارش وارد مرحله آماده‌سازی و ارسال نشده باشد، می‌توانید از طریق پشتیبانی درخواست لغو یا تغییر سفارش خود را ثبت کنید."
+      }
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <nav aria-label="breadcrumb" class="small mb-3">
+      <ol class="breadcrumb mb-1">
+        <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">خانه</a></li>
+        <li class="breadcrumb-item active" aria-current="page">سوالات متداول</li>
+      </ol>
+    </nav>
+
+    <h1 class="h4 mb-3">سوالات متداول</h1>
+
+    <p class="small text-muted mb-4">
+        در این بخش به رایج‌ترین سوالات شما درباره <strong>خرید اینترنتی، ارسال، پرداخت و مرجوعی کالا</strong>
+        در ایران مارکت پاسخ داده‌ایم. اگر سوال دیگری داشتید، تیم پشتیبانی با خوشحالی پاسخ‌گوی شماست.
+    </p>
+
+    <div class="accordion small" id="faqAccordion">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                    چطور می‌توانم از ایران مارکت سفارش ثبت کنم؟
+                </button>
+            </h2>
+            <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading"
+                 data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        برای ثبت سفارش کافی است مراحل زیر را انجام دهید:
+                    </p>
+                    <ol class="mb-0">
+                        <li>شهر خود را از طریق دکمه <strong>«انتخاب شهر»</strong> مشخص کنید.</li>
+                        <li>محصولات مورد نظر را از طریق جستجو یا دسته‌بندی‌ها پیدا کرده و به سبد خرید اضافه کنید.</li>
+                        <li>روی آیکون سبد خرید کلیک کرده و جزئیات را بررسی کنید.</li>
+                        <li>پس از ورود یا ثبت‌نام، آدرس و روش ارسال را انتخاب کنید و سفارش را نهایی کنید.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                    هزینه ارسال سفارش چطور محاسبه می‌شود؟
+                </button>
+            </h2>
+            <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2Heading"
+                 data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        سیستم ایران مارکت هزینه ارسال را به صورت خودکار محاسبه می‌کند.
+                    </p>
+                    <ul class="mb-0">
+                        <li>شهر و منطقه ارسال را از طریق انتخاب شهر مشخص می‌کنید.</li>
+                        <li>مبلغ نهایی سبد خرید در برخی شهرها می‌تواند باعث <strong>ارسال رایگان</strong> شود.</li>
+                        <li>قبل از پرداخت، مبلغ دقیق هزینه ارسال در سبد خرید و صفحه تایید سفارش نمایش داده می‌شود.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                    چطور می‌توانم وضعیت سفارش خود را پیگیری کنم؟
+                </button>
+            </h2>
+            <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Heading"
+                 data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        بعد از ثبت سفارش، یک کد پیگیری برای شما نمایش داده می‌شود.
+                    </p>
+                    <ul class="mb-0">
+                        <li>با ورود به حساب کاربری، از بخش <strong>«سفارش‌های من»</strong> می‌توانید وضعیت سفارش را ببینید.</li>
+                        <li>در صورت فعال بودن، پیامک یا نوتیفیکیشن نیز برای وضعیت‌های مهم سفارش ارسال می‌شود.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                    اگر محصول خراب یا اشتباه به دستم رسید چه کار کنم؟
+                </button>
+            </h2>
+            <div id="faq4" class="accordion-collapse collapse" aria-labelledby="faq4Heading"
+                 data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        در صورت مشاهده هرگونه مشکل در محصول:
+                    </p>
+                    <ol class="mb-0">
+                        <li>در اولین فرصت با پشتیبانی تماس بگیرید یا تیکت ثبت کنید.</li>
+                        <li>مشکل را با جزئیات توضیح دهید و در صورت امکان عکس محصول را ارسال کنید.</li>
+                        <li>تیم پشتیبانی پس از بررسی، برای <strong>تعویض کالا</strong> یا <strong>بازگشت وجه</strong> با شما هماهنگ می‌کند.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                    آیا امکان لغو یا تغییر سفارش وجود دارد؟
+                </button>
+            </h2>
+            <div id="faq5" class="accordion-collapse collapse" aria-labelledby="faq5Heading"
+                 data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        بله، تا زمانی که سفارش وارد مرحله <strong>آماده‌سازی و ارسال</strong> نشده باشد، امکان لغو یا
+                        اعمال تغییرات وجود دارد.
+                    </p>
+                    <ul class="mb-0">
+                        <li>برای این کار از طریق بخش پشتیبانی یا تماس تلفنی، کد پیگیری سفارش خود را اعلام کنید.</li>
+                        <li>در صورت لغو کامل، فرآیند <a href="{% url 'shop:return_policy' %}">بازگشت مبلغ</a> طبق قوانین سایت انجام می‌شود.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

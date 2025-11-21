@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}سبد خرید | ایران مارکت{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="h4 mb-3">سبد خرید</h1>
+
+    {% if cart|length == 0 %}
+        <p>سبد خرید شما خالی است.</p>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th>محصول</th>
+                    <th class="text-center">تعداد</th>
+                    <th>قیمت واحد</th>
+                    <th>قیمت کل</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in cart %}
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                                 style="width:60px;height:60px;object-fit:cover;" class="rounded">
+                            {% endif %}
+                            <div>
+                                <div class="fw-semibold">{{ item.product.name }}</div>
+                                {% if item.product.brand %}
+                                    <div class="small text-muted">{{ item.product.brand.name }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <form
+                            action="{% url 'shop:cart_update' item.product.id %}"
+                            method="post"
+                            class="d-inline-flex align-items-center gap-1"
+                        >
+                            {% csrf_token %}
+                            <input type="hidden" name="current_quantity" value="{{ item.quantity }}">
+                            <button type="submit" name="action" value="decrease"
+                                    class="btn btn-sm btn-outline-secondary px-2">
+                                −
+                            </button>
+                            <span class="px-2">{{ item.quantity }}</span>
+                            <button type="submit" name="action" value="increase"
+                                    class="btn btn-sm btn-outline-secondary px-2">
+                                +
+                            </button>
+                        </form>
+                    </td>
+                    <td>{{ item.price|floatformat:0 }} تومان</td>
+                    <td>{{ item.total_price|floatformat:0 }} تومان</td>
+                    <td>
+                        <a href="{% url 'shop:cart_remove' item.product.id %}" class="btn btn-sm btn-outline-danger">
+                            حذف
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="3" class="text-end">جمع کل</th>
+                    <th colspan="2">{{ cart.get_total_price|floatformat:0 }} تومان</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <a href="{% url 'shop:home' %}" class="btn btn-outline-secondary">
+                بازگشت به خرید
+            </a>
+            <a href="{% url 'shop:checkout' %}" class="btn btn-success">
+                ادامه و ثبت سفارش
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

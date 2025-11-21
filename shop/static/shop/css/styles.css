@@ -1,0 +1,489 @@
+/* ===== ایران مارکت – استایل کلی ===== */
+
+:root {
+    --im-primary: #16a34a;       /* سبز اصلی */
+    --im-primary-soft: #bbf7d0;  /* سبز خیلی روشن */
+    --im-accent: #f97316;        /* نارنجی تخفیف */
+    --im-danger: #ef4444;        /* قرمز */
+    --im-bg: #f4f4f5;            /* پس‌زمینه کلی */
+    --im-card-bg: #ffffff;
+    --im-border-subtle: #e5e7eb;
+    --im-text-main: #111827;
+    --im-text-muted: #6b7280;
+}
+
+/* ===== فونت، بدنه و لِی‌اوت کلی ===== */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: "Vazirmatn", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background-color: var(--im-bg);
+    color: var(--im-text-main);
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* main فضای میانی را پر کند و پایین هدر قرار بگیرد */
+.im-main {
+    flex: 1;
+    /* فاصله از بالا برای این‌که زیر هدر ثابت نرود */
+    padding-top: 7rem;
+}
+
+/* ===== هدر ===== */
+
+.im-header {
+    background-color: #ffffff;
+    position: fixed;  /* همیشه بالای صفحه */
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+/* نوار بالای هدر */
+
+.im-topbar {
+    padding: 0.5rem 0;
+    background-color: #ffffff;
+}
+
+.im-logo-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--im-primary), #22c55e);
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+}
+
+.im-store-name {
+    font-size: 1rem;
+}
+
+/* باکس جستجو */
+
+.im-search .form-control {
+    border-radius: 999px 0 0 999px;
+    border-color: #d1d5db;
+    background-color: #f9fafb;
+}
+
+.im-search .btn {
+    border-radius: 0 999px 999px 0;
+    border-color: #d1d5db;
+}
+
+/* دکمه آیکن زنگوله و مشابه */
+
+.im-icon-btn {
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    padding-inline: 0.6rem;
+}
+
+.im-icon-btn:hover {
+    background-color: #f3f4f6;
+}
+
+/* دکمه ورود/ثبت‌نام و سبد خرید */
+
+.im-login-btn {
+    border-radius: 999px;
+    border: 1px solid #111827;
+    background-color: #ffffff;
+    color: #111827;
+    padding-inline: 0.8rem;
+}
+
+.im-login-btn:hover {
+    background-color: #111827;
+    color: #ffffff;
+}
+
+/* اگر جایی از im-btn-cart استفاده شد */
+
+.im-btn-cart {
+    background-color: var(--im-primary);
+    color: #ffffff;
+    border-radius: 999px;
+    padding-inline: 0.9rem;
+    border: none;
+    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.4);
+}
+
+.im-btn-cart:hover {
+    background-color: #15803d;
+    color: #ffffff;
+}
+
+/* ===== نوار منو پایین هدر ===== */
+
+.im-nav-cats {
+    background-color: #f9fafb;
+}
+
+.im-nav-link {
+    color: var(--im-text-muted);
+    padding: 0.3rem 0;
+}
+
+.im-nav-link:hover {
+    color: var(--im-primary);
+}
+
+/* دکمه انتخاب شهر */
+
+.im-city-pill {
+    border-radius: 999px;
+    background-color: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #ea580c;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.im-city-pill:hover {
+    background-color: #ffedd5;
+    color: #c2410c;
+}
+
+/* ===== کارت محصول ===== */
+
+.product-card {
+    border-radius: 1rem;
+    border: 1px solid var(--im-border-subtle);
+    background-color: var(--im-card-bg);
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
+    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+.product-card img {
+    object-fit: cover;
+    height: 160px;
+    background-color: #f3f4f6;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.10);
+}
+
+/* قیمت‌ها */
+
+.product-card .fw-bold {
+    font-size: 0.95rem;
+}
+
+.product-card .text-decoration-line-through {
+    font-size: 0.75rem;
+}
+
+/* تگ تخفیف */
+
+.badge.bg-danger,
+.badge.bg-danger.small {
+    background-color: var(--im-accent) !important;
+}
+
+/* ===== بخش دسته‌بندی‌ها ===== */
+
+.im-category-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 3px 10px rgba(15, 23, 42, 0.06);
+}
+
+.im-category-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* کارت هر دسته در اسلایدر */
+
+.im-category-item {
+    width: 80px;
+}
+
+/* اسم دسته: حداکثر دو خط، بقیه بریده شود */
+
+.im-category-name {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    margin-top: 0.1rem;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+/* ===== سکشن‌ها ===== */
+
+section {
+    scroll-margin-top: 80px;
+}
+
+/* ===== جدول سبد خرید ===== */
+
+.table > :not(caption) > * > * {
+    padding: 0.6rem 0.75rem;
+}
+
+/* ===== دکمه‌ها (Bootstrap override) ===== */
+
+.btn-success {
+    background-color: var(--im-primary);
+    border-color: var(--im-primary);
+}
+
+.btn-success:hover {
+    background-color: #15803d;
+    border-color: #15803d;
+}
+
+.btn-outline-success {
+    color: var(--im-primary);
+    border-color: var(--im-primary);
+}
+
+.btn-outline-success:hover {
+    background-color: var(--im-primary);
+    color: #ffffff;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+/* ===== فوتر ===== */
+
+.im-footer {
+    background-color: #f9fafb;
+}
+
+.im-footer p {
+    color: var(--im-text-muted);
+}
+
+/* ===== استایل انتخاب شهر ===== */
+
+.city-chip {
+    border-radius: 999px;
+}
+
+#cityList .list-group-item {
+    cursor: pointer;
+}
+
+/* ===== اسکرول‌بار (اختیاری، فانتزی) ===== */
+
+body::-webkit-scrollbar,
+.im-main::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+body::-webkit-scrollbar-track,
+.im-main::-webkit-scrollbar-track {
+    background: #e5e7eb;
+}
+
+body::-webkit-scrollbar-thumb,
+.im-main::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 999px;
+}
+
+/* ===== ریسپانسیو ===== */
+
+@media (max-width: 768px) {
+    .im-topbar .container {
+        gap: 0.5rem;
+    }
+
+    .im-logo-circle {
+        width: 34px;
+        height: 34px;
+    }
+
+    .im-search {
+        order: 3;
+        width: 100%;
+    }
+
+    .im-btn-cart {
+        order: 2;
+    }
+
+    .im-topbar a,
+    .im-topbar .im-btn-cart {
+        white-space: nowrap;
+    }
+}
+
+/* کانتینر در دسکتاپ عریض‌تر شود */
+@media (min-width: 992px) {
+    .container {
+        max-width: 100% !important;
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
+    }
+}
+
+/* ===== استایل داشبورد (اگر استفاده می‌کنی) ===== */
+
+.sales-dashboard h1 {
+    margin-bottom: 20px;
+}
+
+.stats-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.stats-cards .card {
+    flex: 1 1 220px;
+    background: #fff;
+    border-radius: 6px;
+    padding: 16px 20px;
+    border: 1px solid #ddd;
+}
+
+.card-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+.card-value {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.card-sub {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #777;
+}
+
+.chart-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 32px;
+}
+
+.grid-panels {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.panel {
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    padding: 16px 20px;
+}
+
+.panel h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 6px 8px;
+    border: 1px solid #eee;
+    font-size: 13px;
+}
+
+.admin-table thead th {
+    background: #f8f8f8;
+}
+
+.small-text {
+    font-size: 11px;
+    color: #777;
+    margin-bottom: 8px;
+}
+
+/* ===== Toast سبد خرید کنار هدر ===== */
+
+/* جای توست سبد خرید – کنار نوار بالا، سمت راست */
+.cart-toast-container {
+    top: 4.25rem; /* کمی پایین‌تر از هدر ثابت */
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    align-items: flex-end;
+    position: fixed;
+    z-index: 1080;
+}
+
+/* ظاهر خود پیام توست */
+.cart-toast-alert {
+    min-width: 220px;
+    max-width: 280px;
+    font-size: .85rem;
+    padding: .35rem .75rem;
+    border-radius: .5rem;
+    direction: rtl;
+    text-align: right;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity .25s ease-out, transform .25s ease-out;
+}
+
+/* وضعیت محو شدن توست */
+.cart-toast-alert.is-hiding {
+    opacity: 0;
+    transform: translateY(-6px);
+}
+
+/* نسخه موبایل (عرض کمتر از ۵۷۶ پیکسل) */
+@media (max-width: 576px) {
+    .cart-toast-container {
+        top: 3.5rem;
+        right: .5rem;
+    }
+
+    .cart-toast-alert {
+        min-width: 170px;
+        max-width: 220px;
+        font-size: .75rem;
+        padding: .25rem .5rem;
+    }
+}

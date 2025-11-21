@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}روش‌های ارسال سفارش | ایران مارکت{% endblock %}
+
+{% block meta_description %}
+آشنایی با روش‌های ارسال، زمان‌بندی تحویل و نحوه محاسبه هزینه ارسال در سوپرمارکت آنلاین ایران مارکت
+بر اساس شهر و منطقه کاربر.
+{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "روش‌های ارسال سفارش | ایران مارکت",
+  "description": "توضیح روش‌های ارسال، زمان تقریبی تحویل و نحوه محاسبه هزینه ارسال سفارش‌ها در ایران مارکت.",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "خانه",
+        "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'shop:home' %}"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "روش‌های ارسال",
+        "item": "{{ request.build_absolute_uri }}"
+      }
+    ]
+  },
+  "mainEntity": {
+    "@type": "OfferShippingDetails",
+    "shippingDestination": {
+      "@type": "DefinedRegion",
+      "addressCountry": "IR",
+      "name": "ایران"
+    },
+    "transitTime": {
+      "@type": "ShippingDeliveryTime",
+      "handlingTime": {
+        "@type": "QuantitativeValue",
+        "minValue": 0,
+        "maxValue": 1,
+        "unitCode": "d"
+      },
+      "transitTime": {
+        "@type": "QuantitativeValue",
+        "minValue": 1,
+        "maxValue": 3,
+        "unitCode": "d"
+      }
+    }
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <nav aria-label="breadcrumb" class="small mb-3">
+      <ol class="breadcrumb mb-1">
+        <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">خانه</a></li>
+        <li class="breadcrumb-item active" aria-current="page">روش‌های ارسال</li>
+      </ol>
+    </nav>
+
+    <h1 class="h4 mb-3">روش‌های ارسال سفارش در ایران مارکت</h1>
+
+    <p class="small text-muted mb-4">
+        هزینه و نوع ارسال در ایران مارکت بر اساس <strong>شهر</strong>, <strong>منطقه ارسال</strong> و
+        <strong>مبلغ سبد خرید</strong> محاسبه می‌شود. در این صفحه با جزئیات این روش‌ها آشنا می‌شوید.
+    </p>
+
+    <div class="accordion small" id="shippingAccordion">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="shInnerCityHeading">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#shInnerCity" aria-expanded="true" aria-controls="shInnerCity">
+                    ارسال درون‌شهری (اکسپرس)
+                </button>
+            </h2>
+            <div id="shInnerCity" class="accordion-collapse collapse show" aria-labelledby="shInnerCityHeading"
+                 data-bs-parent="#shippingAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        برای برخی شهرها، ایران مارکت امکان <strong>ارسال اکسپرس</strong> را فراهم کرده است.
+                    </p>
+                    <ul class="mb-0">
+                        <li>تحویل سفارش در همان روز یا حداکثر روز کاری بعدی</li>
+                        <li>ارسال توسط ناوگان اختصاصی یا پیک طرف قرارداد</li>
+                        <li>نمایش زمان تقریبی تحویل در صفحه ثبت سفارش</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="shInterCityHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#shInterCity" aria-expanded="false" aria-controls="shInterCity">
+                    ارسال بین‌شهری
+                </button>
+            </h2>
+            <div id="shInterCity" class="accordion-collapse collapse" aria-labelledby="shInterCityHeading"
+                 data-bs-parent="#shippingAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        سفارش‌هایی که مقصد آن‌ها خارج از شهرهای تحت پوشش ارسال اکسپرس باشد، از طریق
+                        <strong>شرکت‌های حمل‌ونقل معتبر</strong> ارسال می‌شوند.
+                    </p>
+                    <ul class="mb-0">
+                        <li>زمان تحویل بسته به فاصله و شرکت حمل‌ونقل متفاوت است.</li>
+                        <li>هزینه ارسال بر اساس وزن، حجم و مقصد محاسبه می‌شود.</li>
+                        <li>جزئیات مرسوله در صورت امکان برای شما پیامک یا در حساب کاربری نمایش داده می‌شود.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="shCalcHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#shCalc" aria-expanded="false" aria-controls="shCalc">
+                    نحوه محاسبه هزینه ارسال
+                </button>
+            </h2>
+            <div id="shCalc" class="accordion-collapse collapse" aria-labelledby="shCalcHeading"
+                 data-bs-parent="#shippingAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        هزینه ارسال در ایران مارکت به صورت خودکار و بر اساس موارد زیر محاسبه می‌شود:
+                    </p>
+                    <ul>
+                        <li>شهر و منطقه‌ای که در مرحله <strong>انتخاب شهر</strong> مشخص کرده‌اید.</li>
+                        <li>مبلغ نهایی سبد خرید (در برخی شهرها تا سقف مشخص، ارسال رایگان است).</li>
+                        <li>نوع روش ارسال (اکسپرس، بین‌شهری و ...)</li>
+                    </ul>
+                    <p class="mb-0">
+                        در صفحه سبد خرید و قبل از پرداخت، مبلغ دقیق هزینه ارسال به شما نمایش داده می‌شود.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="shTimingHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#shTiming" aria-expanded="false" aria-controls="shTiming">
+                    زمان‌بندی و بازه‌های تحویل
+                </button>
+            </h2>
+            <div id="shTiming" class="accordion-collapse collapse" aria-labelledby="shTimingHeading"
+                 data-bs-parent="#shippingAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        در برخی شهرها، امکان انتخاب <strong>بازه زمانی تحویل</strong> (مثلاً صبح، ظهر یا عصر) وجود دارد.
+                    </p>
+                    <ul class="mb-0">
+                        <li>در صورت فعال بودن این ویژگی، در مرحله تایید سفارش می‌توانید بازه دلخواه را انتخاب کنید.</li>
+                        <li>در سایر موارد، زمان تقریبی تحویل به صورت خودکار تعیین و به شما اطلاع داده می‌شود.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="shFreshHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#shFresh" aria-expanded="false" aria-controls="shFresh">
+                    نگه‌داشتن تازگی و سلامت محصولات در مسیر ارسال
+                </button>
+            </h2>
+            <div id="shFresh" class="accordion-collapse collapse" aria-labelledby="shFreshHeading"
+                 data-bs-parent="#shippingAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        ما برای حفظ کیفیت و تازگی محصولات، مخصوصاً در مورد لبنیات، پروتئینی و مواد فریزری،
+                        پروتکل‌های خاصی داریم.
+                    </p>
+                    <ul class="mb-0">
+                        <li>استفاده از بسته‌بندی مناسب برای کالاهای سرد و یخچالی.</li>
+                        <li>کاهش زمان بین جمع‌آوری سفارش تا تحویل درب منزل.</li>
+                        <li>آموزش به نیروهای ارسال برای جابه‌جایی صحیح و امن سبد خرید شما.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

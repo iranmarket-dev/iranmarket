@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}سفارش ثبت شد | ایران مارکت{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <h1 class="h4 my-4">سفارش شما با موفقیت ثبت شد 🎉</h1>
+    <p class="mb-2">شماره سفارش: <strong>#{{ order.id }}</strong></p>
+    <p class="mb-4">به‌زودی با شما برای هماهنگی ارسال تماس گرفته خواهد شد.</p>
+    <a href="{% url 'shop:order_detail' order.id %}" class="btn btn-sm btn-primary">
+        دیدن جزئیات همین سفارش
+    </a>
+    <a href="{% url 'shop:account_orders' %}" class="btn btn-sm btn-outline-secondary">
+        دیدن همه سفارش‌ها
+    </a>
+
+    <a href="{% url 'shop:home' %}" class="btn btn-primary">بازگشت به صفحه اصلی</a>
+</div>
+{% endblock %}

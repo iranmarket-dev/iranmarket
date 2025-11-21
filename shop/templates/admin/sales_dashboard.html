@@ -1,0 +1,174 @@
+{% extends "admin/base_site.html" %}
+{% load humanize %}
+
+{% block title %}داشبورد فروش | {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="sales-dashboard">
+
+    <h1>داشبورد فروش</h1>
+
+    <div class="stats-cards">
+        <div class="card">
+            <div class="card-label">فروش کل (سفارش‌های پرداخت‌شده)</div>
+            <div class="card-value">{{ total_revenue|intcomma }} تومان</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">تعداد کل سفارش‌ها</div>
+            <div class="card-value">{{ total_orders|intcomma }}</div>
+            <div class="card-sub">
+                پرداخت‌شده: {{ paid_orders|intcomma }} | پرداخت‌نشده: {{ unpaid_orders|intcomma }}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">امروز</div>
+            <div class="card-value">
+                {{ today_orders|intcomma }} سفارش
+            </div>
+            <div class="card-sub">
+                فروش امروز: {{ today_revenue|intcomma }} تومان
+            </div>
+        </div>
+    </div>
+
+    <h2>فروش ۷ روز اخیر</h2>
+    <div class="chart-container">
+        <canvas id="salesChart" height="120"></canvas>
+    </div>
+
+    <div class="grid-panels">
+        <div class="panel">
+            <h2>پرفروش‌ترین محصولات (براساس مبلغ)</h2>
+            {% if top_products %}
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>محصول</th>
+                            <th>تعداد فروخته‌شده</th>
+                            <th>مبلغ کل (تومان)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in top_products %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ item.product__name }}</td>
+                                <td>{{ item.units|intcomma }}</td>
+                                <td>{{ item.revenue|intcomma }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>هنوز سفارشی برای محاسبه‌ی پرفروش‌ترین محصولات ثبت نشده است.</p>
+            {% endif %}
+        </div>
+
+        <div class="panel">
+            <h2>فروش بر اساس شهر (تقریبی)</h2>
+            <p class="small-text">
+                بر اساس شهر فعلی ذخیره‌شده در پروفایل کاربر (current_city).
+            </p>
+            {% if sales_by_city %}
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>شهر</th>
+                            <th>تعداد سفارش</th>
+                            <th>مبلغ کل (تومان)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in sales_by_city %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ row.order__user__profile__current_city__name }}</td>
+                                <td>{{ row.orders|intcomma }}</td>
+                                <td>{{ row.revenue|intcomma }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>هنوز سفارشی با اطلاعات شهر برای آمار ثبت نشده است.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+(function() {
+    // این سه خط هم برای VS Code سالمه، هم برای مرورگر
+    const labels      = JSON.parse('{{ chart_labels|escapejs }}');
+    const revenueData = JSON.parse('{{ chart_revenue|escapejs }}');
+    const ordersData  = JSON.parse('{{ chart_orders|escapejs }}');
+
+    const ctx = document.getElementById('salesChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'فروش (تومان)',
+                    data: revenueData,
+                    yAxisID: 'y',
+                    tension: 0.25
+                },
+                {
+                    label: 'تعداد سفارش',
+                    data: ordersData,
+                    yAxisID: 'y1',
+                    borderDash: [5, 5],
+                    tension: 0.25
+                }
+            ]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const value = context.parsed.y || 0;
+                            return context.dataset.label + ': ' + value.toLocaleString('fa-IR');
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    position: 'left',
+                    beginAtZero: true
+                },
+                y1: {
+                    type: 'linear',
+                    position: 'right',
+                    beginAtZero: true,
+                    grid: {
+                        drawOnChartArea: false
+                    }
+                }
+            }
+        }
+    });
+})();
+</script>
+
+
+{% endblock %}

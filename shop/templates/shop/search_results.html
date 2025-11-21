@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ seo_title }}{% endblock %}
+{% block meta_description %}{{ seo_description }}{% endblock %}
+
+{% block extra_head %}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ seo_title }}">
+    <meta property="og:description" content="{{ seo_description }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "خانه",
+          "item": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "جستجو",
+          "item": "{{ request.build_absolute_uri }}"
+        }
+      ]
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <nav aria-label="breadcrumb" class="mt-2 mb-3">
+        <ol class="breadcrumb breadcrumb-sm">
+            <li class="breadcrumb-item">
+                <a href="{% url 'shop:home' %}">خانه</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                جستجو{% if query %} برای «{{ query }}»{% endif %}
+            </li>
+        </ol>
+    </nav>
+
+    <h1 class="h4 mb-3">
+        جستجوی محصولات
+        {% if query %}<small class="text-muted">برای «{{ query }}»</small>{% endif %}
+    </h1>
+
+<div class="container">
+    <h1 class="h4 mb-3">
+        نتایج جستجو
+        {% if query %}
+            برای «{{ query }}»
+        {% endif %}
+    </h1>
+
+    {% if products %}
+        <div class="row row-cols-2 row-cols-md-4 g-3">
+            {% for p in products %}
+            <div class="col">
+                {% include 'shop/partials/product_card.html' with p=p %}
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>هیچ محصولی مطابق جستجوی شما پیدا نشد.</p>
+    {% endif %}
+</div>
+
+{% if page_obj and page_obj.paginator.num_pages > 1 %}
+<nav aria-label="page navigation" class="mt-3">
+    <ul class="pagination justify-content-center pagination-sm">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?page={{ page_obj.previous_page_number }}{% if current_querystring %}&{{ current_querystring }}{% endif %}">
+                    قبلی
+                </a>
+            </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ num }}{% if current_querystring %}&{{ current_querystring }}{% endif %}">
+                        {{ num }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?page={{ page_obj.next_page_number }}{% if current_querystring %}&{{ current_querystring }}{% endif %}">
+                    بعدی
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+{% endblock %}

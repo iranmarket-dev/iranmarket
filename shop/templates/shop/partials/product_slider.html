@@ -1,0 +1,24 @@
+{# templates/shop/partials/product_slider.html #}
+
+{% if products %}
+<section class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2 class="h5 mb-0">{{ title }}</h2>
+
+        {# لینک "مشاهده همه" اگر more_url داده شده باشد #}
+        {% if more_url %}
+            <a href="{{ more_url }}" class="small text-decoration-none">
+                مشاهدۀ همه
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="d-flex flex-row flex-nowrap overflow-auto gap-3">
+        {% for p in products %}
+            <div class="flex-shrink-0" style="min-width: 180px;">
+                {% include "shop/partials/product_card.html" with p=p %}
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}

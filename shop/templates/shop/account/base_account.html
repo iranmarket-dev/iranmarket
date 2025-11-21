@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}حساب کاربری | ایران مارکت{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="h5 mb-3">حساب کاربری</h1>
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="list-group small">
+                <a href="{% url 'shop:account_dashboard' %}"
+                   class="list-group-item list-group-item-action {% if active_tab == 'dashboard' %}active{% endif %}">
+                    داشبورد
+                </a>
+                <a href="{% url 'shop:account_profile' %}"
+                   class="list-group-item list-group-item-action {% if active_tab == 'profile' %}active{% endif %}">
+                    اطلاعات شخصی
+                </a>
+                <a href="{% url 'shop:account_addresses' %}"
+                   class="list-group-item list-group-item-action {% if active_tab == 'addresses' %}active{% endif %}">
+                    آدرس‌ها
+                </a>
+                <a href="{% url 'shop:account_orders' %}"
+                   class="list-group-item list-group-item-action {% if active_tab == 'orders' %}active{% endif %}">
+                    سفارش‌های من
+                </a>
+                <a href="{% url 'shop:account_wishlist' %}"
+                   class="list-group-item list-group-item-action {% if active_tab == 'wishlist' %}active{% endif %}">
+                    لیست علاقه‌مندی‌ها
+                </a>
+                <a href="{% url 'shop:account_notifications' %}"
+                   class="list-group-item list-group-item-action {% if active_tab == 'notifications' %}active{% endif %}">
+                    تنظیمات اطلاع‌رسانی
+                </a>
+                <a href="{% url 'shop:account_support' %}"
+                   class="list-group-item list-group-item-action {% if active_tab == 'support' %}active{% endif %}">
+                    پشتیبانی
+                </a>
+                <a href="{% url 'shop:logout' %}"
+                   class="list-group-item list-group-item-action text-danger">
+                    خروج
+                </a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            {% block account_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

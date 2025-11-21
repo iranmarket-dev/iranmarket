@@ -1,0 +1,38 @@
+{% extends "shop/account/base_account.html" %}
+
+{% block account_content %}
+<div class="card">
+    <div class="card-body">
+        <h2 class="h6 mb-3">اطلاعات شخصی</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">نام و نام خانوادگی</label>
+                <input type="text" name="full_name" class="form-control"
+                       value="{{ profile.full_name }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">شماره موبایل (ورود)</label>
+                <input type="text" class="form-control" value="{{ profile.phone|default:request.user.username }}" disabled>
+                <div class="form-text small">شماره موبایلی که با آن وارد شده‌اید.</div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">ایمیل</label>
+                <input type="email" name="email" class="form-control"
+                       value="{{ profile.email|default:request.user.email }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">تاریخ تولد</label>
+                <input type="date" name="date_of_birth" class="form-control"
+                       value="{{ profile.date_of_birth|date:'Y-m-d' }}">
+            </div>
+
+            <button type="submit" class="btn btn-success">ذخیره تغییرات</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

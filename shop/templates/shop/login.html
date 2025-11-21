@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}ورود | ایران مارکت{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center py-5" style="min-height: 80vh;">
+    <div class="shadow-sm p-4 rounded-3 bg-white" style="width: 100%; max-width: 420px;">
+
+        <div class="text-center mb-3">
+            <div style="font-size: 28px; font-weight: bold; color: #ef4056;">
+                ایران مارکت
+            </div>
+        </div>
+
+        <h2 class="h6 text-center mb-3 fw-bold">
+            ورود یا ثبت‌نام در ایران مارکت
+        </h2>
+
+        <p class="text-center text-muted small">
+            لطفاً شماره موبایل یا ایمیل خود را وارد کنید.
+        </p>
+
+        <form method="post" action="{% url 'shop:login' %}">
+            {% csrf_token %}
+            <input type="text"
+                   name="identifier"
+                   value="{{ identifier }}"
+                   placeholder="شماره موبایل یا پست الکترونیک"
+                   class="form-control form-control-lg mb-3"
+                   style="border-radius: 12px;">
+
+            <button type="submit"
+                    class="btn w-100 text-white fw-bold"
+                    style="background-color: #ef4056; border-radius: 12px; padding: 10px 0;">
+                ارسال کد ورود
+            </button>
+        </form>
+
+        <p class="text-center mt-3 small text-muted">
+            ورود شما به معنای پذیرش
+            <a href="#" class="text-decoration-none">شرایط ایران مارکت</a>
+            و
+            <a href="#" class="text-decoration-none">قوانین حریم‌خصوصی</a>
+            است.
+        </p>
+    </div>
+</div>
+{% endblock %}

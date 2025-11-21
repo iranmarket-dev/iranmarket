@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}شرایط بازگشت کالا | ایران مارکت{% endblock %}
+
+{% block meta_description %}
+شرایط و قوانین مرجوعی کالا در ایران مارکت؛ نحوه ثبت درخواست بازگشت، محدودیت‌ها برای کالاهای
+غذایی و زمان‌بندی بررسی و بازگشت وجه.
+{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "شرایط بازگشت کالا | ایران مارکت",
+  "description": "توضیح کامل شرایط مرجوعی و بازگشت وجه برای سفارش‌های ثبت شده در ایران مارکت.",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "خانه",
+        "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'shop:home' %}"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "شرایط بازگشت کالا",
+        "item": "{{ request.build_absolute_uri }}"
+      }
+    ]
+  },
+  "mainEntity": {
+    "@type": "MerchantReturnPolicy",
+    "name": "سیاست بازگشت کالا ایران مارکت",
+    "merchantReturnLink": "{{ request.build_absolute_uri }}",
+    "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+    "returnPolicyCountry": {
+      "@type": "Country",
+      "name": "IR"
+    },
+    "returnWindow": {
+      "@type": "QuantitativeValue",
+      "value": 1,
+      "unitCode": "d"
+    }
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <nav aria-label="breadcrumb" class="small mb-3">
+      <ol class="breadcrumb mb-1">
+        <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">خانه</a></li>
+        <li class="breadcrumb-item active" aria-current="page">شرایط بازگشت کالا</li>
+      </ol>
+    </nav>
+
+    <h1 class="h4 mb-3">شرایط بازگشت و مرجوعی کالا</h1>
+
+    <p class="small text-muted mb-4">
+        رضایت شما برای ما مهم است. اگر کالایی که از ایران مارکت دریافت می‌کنید با سفارش شما
+        مطابقت نداشته باشد یا دچار مشکل باشد، می‌توانید طبق شرایط زیر درخواست بازگشت ثبت کنید.
+    </p>
+
+    <div class="accordion small" id="returnAccordion">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="rpWhenHeading">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#rpWhen" aria-expanded="true" aria-controls="rpWhen">
+                    در چه مواردی می‌توانم کالا را مرجوع کنم؟
+                </button>
+            </h2>
+            <div id="rpWhen" class="accordion-collapse collapse show" aria-labelledby="rpWhenHeading"
+                 data-bs-parent="#returnAccordion">
+                <div class="accordion-body">
+                    <ul class="mb-0">
+                        <li>کالای تحویل داده شده با <strong>سفارش ثبت شده</strong> تفاوت داشته باشد.</li>
+                        <li>بسته‌بندی به صورت جدی <strong>آسیب‌دیده</strong> باشد.</li>
+                        <li>تاریخ انقضای محصول، <strong>گذشته</strong> باشد یا بسیار نزدیک و غیرقابل‌قبول باشد.</li>
+                        <li>کالای فاسدشدنی در زمان تحویل، نشانه‌های فساد یا خرابی داشته باشد.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="rpLimitsHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#rpLimits" aria-expanded="false" aria-controls="rpLimits">
+                    محدودیت‌ها و استثناها
+                </button>
+            </h2>
+            <div id="rpLimits" class="accordion-collapse collapse" aria-labelledby="rpLimitsHeading"
+                 data-bs-parent="#returnAccordion">
+                <div class="accordion-body">
+                    <ul>
+                        <li>برای <strong>مواد غذایی تازه و فاسدشدنی</strong> (مثل لبنیات، گوشت، سبزیجات و...) زمان اعلام مشکل بسیار محدود است؛ لطفاً بلافاصله پس از تحویل بررسی کنید.</li>
+                        <li>در صورتی که مشکل ناشی از <strong>عدم نگهداری صحیح پس از تحویل</strong> باشد، امکان مرجوعی وجود ندارد.</li>
+                        <li>کالاهایی که با تخفیف ویژه و با برچسب «غیرقابل‌مرجوع» فروخته می‌شوند، مشمول شرایط خاص هستند.</li>
+                    </ul>
+                    <p class="mb-0">
+                        در هر صورت، تیم پشتیبانی تلاش می‌کند بهترین راه‌حل ممکن را برای شما پیدا کند.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="rpHowHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#rpHow" aria-expanded="false" aria-controls="rpHow">
+                    مراحل ثبت درخواست بازگشت کالا
+                </button>
+            </h2>
+            <div id="rpHow" class="accordion-collapse collapse" aria-labelledby="rpHowHeading"
+                 data-bs-parent="#returnAccordion">
+                <div class="accordion-body">
+                    <ol class="mb-0">
+                        <li>وارد حساب کاربری خود شوید.</li>
+                        <li>به بخش <strong>«سفارش‌های من»</strong> بروید و سفارش مورد نظر را انتخاب کنید.</li>
+                        <li>از بخش <strong>«پشتیبانی / ثبت تیکت»</strong>، مشکل خود را با جزئیات توضیح دهید.</li>
+                        <li>در صورت امکان، <strong>عکس</strong> از محصول و بسته‌بندی آن ارسال کنید.</li>
+                        <li>تیم پشتیبانی پس از بررسی، نتیجه و نحوه پیگیری (تعویض کالا، ارسال مجدد یا بازگشت وجه) را به شما اطلاع می‌دهد.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="rpRefundHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#rpRefund" aria-expanded="false" aria-controls="rpRefund">
+                    زمان و روش بازگشت وجه
+                </button>
+            </h2>
+            <div id="rpRefund" class="accordion-collapse collapse" aria-labelledby="rpRefundHeading"
+                 data-bs-parent="#returnAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        در صورت تایید درخواست مرجوعی، بازگشت وجه معمولاً طی <strong>۳ تا ۵ روز کاری</strong> انجام می‌شود.
+                    </p>
+                    <ul class="mb-0">
+                        <li>مبلغ می‌تواند به <strong>کیف پول شما در ایران مارکت</strong> واریز شود تا در خریدهای بعدی استفاده کنید.</li>
+                        <li>در صورت نیاز، امکان واریز به <strong>حساب بانکی</strong> شما نیز وجود دارد (با هماهنگی پشتیبانی).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

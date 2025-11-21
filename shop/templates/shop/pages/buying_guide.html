@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}راهنمای خرید از ایران مارکت{% endblock %}
+
+{% block meta_description %}
+آموزش قدم به قدم خرید اینترنتی از ایران مارکت؛ از جستجوی محصول و افزودن به سبد خرید تا انتخاب شهر،
+روش ارسال و نهایی کردن سفارش.
+{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "خانه",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'shop:home' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "راهنمای خرید",
+      "item": "{{ request.build_absolute_uri }}"
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    {# Breadcrumb #}
+    <nav aria-label="breadcrumb" class="small mb-3">
+      <ol class="breadcrumb mb-1">
+        <li class="breadcrumb-item"><a href="{% url 'shop:home' %}">خانه</a></li>
+        <li class="breadcrumb-item active" aria-current="page">راهنمای خرید</li>
+      </ol>
+    </nav>
+
+    <h1 class="h4 mb-3">راهنمای خرید از ایران مارکت</h1>
+
+    <p class="small text-muted mb-4">
+        در این صفحه می‌توانید با همه مراحل <strong>خرید اینترنتی از سوپرمارکت آنلاین ایران مارکت</strong>
+        آشنا شوید؛ از پیدا کردن محصول تا ثبت نهایی سفارش و پیگیری آن.
+    </p>
+
+    <div class="accordion small" id="buyGuideAccordion">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="bgStep1Heading">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#bgStep1" aria-expanded="true" aria-controls="bgStep1">
+                    مرحله ۱: انتخاب شهر و مشاهده کالاهای قابل ارسال
+                </button>
+            </h2>
+            <div id="bgStep1" class="accordion-collapse collapse show" aria-labelledby="bgStep1Heading"
+                 data-bs-parent="#buyGuideAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        از طریق دکمه <strong>«انتخاب شهر»</strong> در نوار بالای سایت، شهر خود را انتخاب کنید.
+                    </p>
+                    <ul class="mb-0">
+                        <li>با انتخاب شهر، فقط کالاها و روش‌های ارسال قابل‌استفاده برای همان شهر نمایش داده می‌شود.</li>
+                        <li>هزینه ارسال در سبد خرید، بر اساس شهر و <strong>منطقه ارسال</strong> محاسبه خواهد شد.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="bgStep2Heading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#bgStep2" aria-expanded="false" aria-controls="bgStep2">
+                    مرحله ۲: جستجو و انتخاب محصولات
+                </button>
+            </h2>
+            <div id="bgStep2" class="accordion-collapse collapse" aria-labelledby="bgStep2Heading"
+                 data-bs-parent="#buyGuideAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        برای پیدا کردن محصول می‌توانید از دو روش استفاده کنید:
+                    </p>
+                    <ul>
+                        <li>نوار جستجو در بالای سایت (جستجو بر اساس نام محصول، برند یا دسته‌بندی)</li>
+                        <li>استفاده از منوی <strong>«دسته‌بندی کالاها»</strong> و مرور گروه‌های مختلف</li>
+                    </ul>
+                    <p class="mb-0">
+                        با کلیک روی هر محصول، صفحه جزئیات آن شامل تصویر، قیمت، وزن، تخفیف و توضیحات را
+                        مشاهده می‌کنید.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="bgStep3Heading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#bgStep3" aria-expanded="false" aria-controls="bgStep3">
+                    مرحله ۳: افزودن محصولات به سبد خرید
+                </button>
+            </h2>
+            <div id="bgStep3" class="accordion-collapse collapse" aria-labelledby="bgStep3Heading"
+                 data-bs-parent="#buyGuideAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        در هر کارت محصول یا صفحه جزئیات آن، دکمه <strong>«افزودن به سبد خرید»</strong> را می‌بینید.
+                    </p>
+                    <ul>
+                        <li>با کلیک روی این دکمه، محصول به سبد اضافه می‌شود و تعداد آن قابل تغییر است.</li>
+                        <li>در بالای سایت، آیکون سبد خرید همراه با تعداد اقلام به‌روزرسانی می‌شود.</li>
+                    </ul>
+                    <p class="mb-0">
+                        هر زمان خواستید می‌توانید روی آیکون سبد کلیک کنید تا جزئیات سفارش و قیمت نهایی را ببینید.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="bgStep4Heading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#bgStep4" aria-expanded="false" aria-controls="bgStep4">
+                    مرحله ۴: ورود یا ثبت‌نام و تکمیل آدرس
+                </button>
+            </h2>
+            <div id="bgStep4" class="accordion-collapse collapse" aria-labelledby="bgStep4Heading"
+                 data-bs-parent="#buyGuideAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        برای ثبت نهایی سفارش باید وارد حساب کاربری خود شوید یا یک حساب جدید بسازید.
+                    </p>
+                    <ul>
+                        <li>ورود از طریق شماره موبایل و <strong>کد یکبار مصرف (OTP)</strong> انجام می‌شود.</li>
+                        <li>بعد از ورود، می‌توانید آدرس‌های مختلف (خانه، محل کار و...) را ثبت و مدیریت کنید.</li>
+                        <li>در مرحله بعد، آدرس مورد نظر را برای ارسال انتخاب می‌کنید.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="bgStep5Heading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#bgStep5" aria-expanded="false" aria-controls="bgStep5">
+                    مرحله ۵: انتخاب روش ارسال و پرداخت
+                </button>
+            </h2>
+            <div id="bgStep5" class="accordion-collapse collapse" aria-labelledby="bgStep5Heading"
+                 data-bs-parent="#buyGuideAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        در صفحه <strong>تایید و پرداخت</strong> می‌توانید موارد زیر را نهایی کنید:
+                    </p>
+                    <ul>
+                        <li>بررسی نهایی اقلام موجود در سبد خرید و تعداد هر کالا</li>
+                        <li>انتخاب بازه زمانی ارسال (در صورت فعال بودن این امکان در شهر شما)</li>
+                        <li>مشاهده هزینه ارسال بر اساس شهر و منطقه</li>
+                        <li>انتخاب روش پرداخت (درگاه آنلاین و سایر روش‌های فعال)</li>
+                    </ul>
+                    <p class="mb-0">
+                        پس از تایید و پرداخت، سفارش شما ثبت شده و کد پیگیری برایتان نمایش داده و ارسال می‌شود.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="bgStep6Heading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#bgStep6" aria-expanded="false" aria-controls="bgStep6">
+                    مرحله ۶: پیگیری وضعیت سفارش
+                </button>
+            </h2>
+            <div id="bgStep6" class="accordion-collapse collapse" aria-labelledby="bgStep6Heading"
+                 data-bs-parent="#buyGuideAccordion">
+                <div class="accordion-body">
+                    <p class="mb-2">
+                        برای مشاهده وضعیت سفارش‌های خود، وارد بخش
+                        <strong>«حساب کاربری &gt; سفارش‌های من»</strong> شوید.
+                    </p>
+                    <ul class="mb-0">
+                        <li>می‌توانید وضعیت هر سفارش (در حال آماده‌سازی، ارسال شده، تحویل شده و...) را ببینید.</li>
+                        <li>در صورت وجود مشکل، از طریق بخش <strong>پشتیبانی</strong> برای همان سفارش، پیام ارسال کنید.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
